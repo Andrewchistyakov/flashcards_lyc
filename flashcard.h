@@ -6,5 +6,6 @@
 
 // функция записывает карточку в .csv файл, реализация в flashcard.cpp
 bool addFlashcard(const std::string& front, const std::string& back);
+void displayAllCards();
 
 #endif // тоже хз че это))
