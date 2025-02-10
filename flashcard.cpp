@@ -39,6 +39,10 @@ bool addFlashcard(const std::string& front, const std::string& back) {
 
     // считаем какой айди следующий 
     int id = getNextID(filename);
+    if (id == -1) {
+        std::cerr << "Error: Could not get next ID." << std::endl;
+        return false;
+    }
 
     // открываем файл в режиме добавления
     std::ofstream file(filename, std::ios::app);
