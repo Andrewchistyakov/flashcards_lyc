@@ -60,3 +60,48 @@ bool addFlashcard(const std::string& front, const std::string& back) {
     // возвращем тру типа успешно добавили карточку
     return true;
 }
+
+void displayAllCards() {
+
+    const std::string filename = "flashcards.csv";
+
+    // открываем файл и чекаем на ошибки
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open " << filename << " for reading." << std::endl;
+        return;
+    }
+
+    // чут чут красоты
+    std::string line;
+    std::cout << "Flashcards:\n";
+    std::cout << "-----------------------------------\n";
+
+    // читаем файлик и выводим карточки
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string id;
+        std::string card_front;
+        std::string card_back;
+
+        // парсим строку разделяем по частям
+        std::getline(iss, id, ',');
+        std::getline(iss, card_front, ',');
+        std::getline(iss, card_back, ',');
+
+        // убираем некрасивые кавычки
+        if (!card_front.empty() && card_front.front() == '"') card_front.erase(0, 1);
+        if (!card_front.empty() && card_front.back() == '"') card_front.pop_back();
+        if (!card_back.empty() && card_back.front() == '"') card_back.erase(0, 1);
+        if (!card_back.empty() && card_back.back() == '"') card_back.pop_back();
+
+        // красиво выводим карточку
+        std::cout << "ID: " << id << "\n";
+        std::cout << "Front: " << card_front << "\n";
+        std::cout << "Back: " << card_back << "\n";
+        std::cout << "-----------------------------------\n";
+    }
+
+    // Close the file
+    file.close();
+}

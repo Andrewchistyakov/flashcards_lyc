@@ -10,7 +10,7 @@ int main(int, char* argv[])
     // тестовая команда привет, по ней можно будет проверять, запускается ли вообще программа
     if (cmdl[1] == "privet") {
         std::cout << "Hello world!\n to add a card type: fcard add <front> <back>" << std::endl;
-    }else if (cmdl[1] == "add") {
+    } else if (cmdl[1] == "add") {
         // убеждаемся что юзер ввел достаточно аргументов для добавления карточки
         if (cmdl.size() < 4) {
             std::cerr << "to add a card you need to type: fcard add <front> <back>" << std::endl;
@@ -27,6 +27,8 @@ int main(int, char* argv[])
         } else {
             std::cerr << "Failed to add flashcard." << std::endl;
         }
+    } else if (cmdl[1] == "list" && !cmdl(2)) {
+        displayAllCards();
     } else {
         std::cerr << "Unknown command. Available commands: privet, add" << std::endl;
     }
