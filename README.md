@@ -9,6 +9,6 @@ It will have features like study mode, adding/deleting flashcards, adding tags t
 
 ## Currently available commands
 
-`fcard privet`
+`./fcard privet`
 
 `./fcard add <card_front> <card_back>`
