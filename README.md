@@ -1,4 +1,4 @@
-# fcards
+# fcard
 ### CLI flashcards tool for students 
 
 This is a HSE lyceum study project of andrew, ilya and sasha.
