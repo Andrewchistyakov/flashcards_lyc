@@ -44,13 +44,17 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
     if (id == -1) {
         std::cerr << "Error: Could not get next ID." << std::endl;
         return false;
-    }
+    } 
 
     // открываем файл в режиме добавления
     std::ofstream file(filename, std::ios::app);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open flashcards.csv for writing." << std::endl;
         return false;
+    }
+    
+    if (id == 1) { // если файл новый, добавим заголовок
+        file << "ID,Front,Back,Tag\n";
     }
 
     // записываем в файл карточку
