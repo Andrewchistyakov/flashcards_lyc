@@ -9,7 +9,7 @@ int main(int, char* argv[])
 
     // тестовая команда привет, по ней можно будет проверять, запускается ли вообще программа
     if (cmdl[1] == "privet") {
-        std::cout << "Hello world!\n to add a card type: fcard add <front> <back>" << std::endl;
+        std::cout << "Hello world!\n" << std::endl;
     } else if (cmdl[1] == "add") {
         // убеждаемся что юзер ввел достаточно аргументов для добавления карточки
         if (cmdl.size() < 4) {

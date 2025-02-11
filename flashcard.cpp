@@ -28,7 +28,7 @@ int getNextID(const std::string& filename) {
     try {
         return std::stoi(idStr) + 1; // конвертируем полученную строку в инт и прибавляем 1
     } catch (...) {
-        return -1; // если чето не так возвращаем -1 как знак ошибки
+        return 1; // если чето не так возвращаем 1
     }
 }
 
