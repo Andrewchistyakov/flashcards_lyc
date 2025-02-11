@@ -15,6 +15,6 @@ Using python "unittest" library for testing in Github Actions
 
 `./fcard privet` - outputs "hello world", used to check if program works
 
-`./fcard add <card_front> <card_back>` - used to create new cards. cards are added to "flashcards.csv" file, which is located in the same directore as program code. 
+`./fcard add <card_front> <card_back> -t <card_tag>` - used to create new cards. cards are added to "flashcards.csv" file, which is located in the same directore as program code. you **can not** add cards without a tag, because it is so inefficient to study without using them. you cam also use `--tag` instead of `-t`. the `-t <card_tag>` may be located anywhere in the query, it will not affect its behavior.
 
 `./fcard list` - lists all existing cards
