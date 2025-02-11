@@ -33,7 +33,7 @@ int getNextID(const std::string& filename) {
 }
 
 // функция записывает карточку в .csv файл
-bool addFlashcard(const std::string& front, const std::string& back) {
+bool addFlashcard(const std::string& front, const std::string& back, const std::string& tag) {
 
     const std::string filename = "flashcards.csv";
 
@@ -52,7 +52,7 @@ bool addFlashcard(const std::string& front, const std::string& back) {
     }
 
     // записываем в файл карточку
-    file << id <<",\"" << front << "\",\"" << back << "\"" << std::endl;
+    file << id <<",\"" << front << "\",\"" << back << "\"" << ",\"" << tag << "\"" << std::endl;
 
     // закрываем файл
     file.close();
