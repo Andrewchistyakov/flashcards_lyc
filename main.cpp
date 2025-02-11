@@ -5,7 +5,8 @@
 int main(int, char* argv[])
 {
     // cmdl - парсер из "Argh!", из него получаем аргументы
-    argh::parser cmdl(argv);
+    argh::parser cmdl({"-t", "--tag"});
+    cmdl.parse(argv);
 
     // тестовая команда привет, по ней можно будет проверять, запускается ли вообще программа
     if (cmdl[1] == "privet") {
@@ -17,12 +18,17 @@ int main(int, char* argv[])
             return 1;
         }
 
+        std::string tag;
+        if (!(cmdl({"-t", "--tag"}) >> tag)) {
+            std::cerr << "You have to specify the tag for the flashcard.\nUse \"-t\" or \"--tag\" followed by tag name" << std::endl;
+            return 1;
+        }
         // забираем перед и зад карточки из аргументов
         std::string front = cmdl[2];
         std::string back = cmdl[3];
 
         // записываем в файлик
-        if (addFlashcard(front, back)) {
+        if (addFlashcard(front, back, tag)) {
             std::cout << "Flashcard added successfully!" << std::endl;
         } else {
             std::cerr << "Failed to add flashcard." << std::endl;
