@@ -15,7 +15,7 @@ class TestFlashcardProgram(unittest.TestCase):
 
         clear_csv("flashcards.csv") # удаляем файл чтобы тестировать с нуля
 
-        result = subprocess.run(["./fcard", "add", "Front of card", "Back of card"], capture_output=True, text=True)
+        result = subprocess.run(["./fcard", "add", "Front of card", "Back of card", "-t", "tag1"], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
         self.assertIn("Flashcard added successfully!", result.stdout)  # проверяем аутпут
 
@@ -28,18 +28,20 @@ class TestFlashcardProgram(unittest.TestCase):
         clear_csv("flashcards.csv")
 
         # добавляем карточки
-        subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1"], capture_output=True, text=True)
-        subprocess.run(["./fcard", "add", "Test Front 2", "Test Back 2"], capture_output=True, text=True)
+        subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1", "-t", "tag_text_1"], capture_output=True, text=True)
+        subprocess.run(["./fcard", "add", "Test Front 2", "Test Back 2", "-t", "tag_text_2"], capture_output=True, text=True)
 
         expected_output = """Flashcards:
 -----------------------------------
 ID: 1
 Front: Test Front 1
 Back: Test Back 1
+Tag: tag_text_1
 -----------------------------------
 ID: 2
 Front: Test Front 2
 Back: Test Back 2
+Tag: tag_text_2
 -----------------------------------"""
         # Display all cards
         result = subprocess.run(["./fcard", "list"], capture_output=True, text=True)

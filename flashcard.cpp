@@ -83,22 +83,27 @@ void displayAllCards() {
         std::string id;
         std::string card_front;
         std::string card_back;
+        std::string card_tag;
 
         // парсим строку разделяем по частям
         std::getline(iss, id, ',');
         std::getline(iss, card_front, ',');
         std::getline(iss, card_back, ',');
+        std::getline(iss, card_tag, ',');
 
         // убираем некрасивые кавычки
         if (!card_front.empty() && card_front.front() == '"') card_front.erase(0, 1);
         if (!card_front.empty() && card_front.back() == '"') card_front.pop_back();
         if (!card_back.empty() && card_back.front() == '"') card_back.erase(0, 1);
         if (!card_back.empty() && card_back.back() == '"') card_back.pop_back();
+        if (!card_tag.empty() && card_tag.front() == '"') card_tag.erase(0, 1);
+        if (!card_tag.empty() && card_tag.back() == '"') card_tag.pop_back();
 
         // красиво выводим карточку
         std::cout << "ID: " << id << "\n";
         std::cout << "Front: " << card_front << "\n";
         std::cout << "Back: " << card_back << "\n";
+        std::cout << "Tag: " << card_tag << "\n";
         std::cout << "-----------------------------------\n";
     }
 
