@@ -7,6 +7,8 @@ It is an analog of famous Quizlet app, but in CLI.
 
 It will have features like study mode, adding/deleting flashcards, adding tags to them, viewing stats, importing/exporting sets of cards etc.
 
+Using "Argh!" to manage command line arguments 
+
 ## Currently available commands
 
 `./fcard privet`
