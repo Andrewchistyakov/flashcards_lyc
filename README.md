@@ -9,6 +9,8 @@ It will have features like study mode, adding/deleting flashcards, adding tags t
 
 Using "Argh!" to manage command line arguments 
 
+Using python "unittest" library for testing in Github Actions
+
 ## Currently available commands
 
 `./fcard privet`
