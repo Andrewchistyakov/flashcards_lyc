@@ -36,7 +36,7 @@ int main(int, char* argv[])
     } else if (cmdl[1] == "list" && !cmdl(2)) {
         displayAllCards();
     } else {
-        std::cerr << "Unknown command. Available commands: privet, add" << std::endl;
+        std::cerr << "Unknown command. Available commands: privet, list, add" << std::endl;
     }
 
     return 0;

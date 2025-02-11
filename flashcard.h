@@ -1,6 +1,7 @@
 // хз зачем это нужно если честно, вопросы к deepseek
 #ifndef FLASHCARD_H
 #define FLASHCARD_H
+#define sep ',' // укажем разделитель чтоб не париться в будущем
 
 #include <string>
 

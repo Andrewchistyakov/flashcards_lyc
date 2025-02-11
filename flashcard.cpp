@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "rapidcsv.h"
+
 
 // функция получает следующий ID
 int getNextID(const std::string& filename) {
@@ -62,15 +64,22 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
 }
 
 void displayAllCards() {
-
     const std::string filename = "flashcards.csv";
 
-    // открываем файл и чекаем на ошибки
-    std::ifstream file(filename);
-    if (!file.is_open()) {
+    // чек на ошибки
+    // по факту костыль, хорошо бы переделать
+    std::ifstream chck(filename);
+    if (!chck.is_open()) {
         std::cerr << "Error: Could not open " << filename << " for reading." << std::endl;
         return;
+    } else {
+        chck.close();
     }
+
+
+    // LabelParams в rapidcsv нужны чтобы обозначать парсим значение или идем по номеру
+    // 0 значит значение, -1 номер
+    rapidcsv::Document file(filename, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(sep));
 
     // чут чут красоты
     std::string line;
@@ -78,26 +87,17 @@ void displayAllCards() {
     std::cout << "-----------------------------------\n";
 
     // читаем файлик и выводим карточки
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string id;
+    for (int i = 0; i < file.GetRowCount(); i++) {
+        int id;
         std::string card_front;
         std::string card_back;
         std::string card_tag;
 
-        // парсим строку разделяем по частям
-        std::getline(iss, id, ',');
-        std::getline(iss, card_front, ',');
-        std::getline(iss, card_back, ',');
-        std::getline(iss, card_tag, ',');
-
-        // убираем некрасивые кавычки
-        if (!card_front.empty() && card_front.front() == '"') card_front.erase(0, 1);
-        if (!card_front.empty() && card_front.back() == '"') card_front.pop_back();
-        if (!card_back.empty() && card_back.front() == '"') card_back.erase(0, 1);
-        if (!card_back.empty() && card_back.back() == '"') card_back.pop_back();
-        if (!card_tag.empty() && card_tag.front() == '"') card_tag.erase(0, 1);
-        if (!card_tag.empty() && card_tag.back() == '"') card_tag.pop_back();
+        // парсим строку по частям с либой
+        id = file.GetCell<int>("ID", i);
+        card_front = file.GetCell<std::string>("Front", i);
+        card_back = file.GetCell<std::string>("Back", i);
+        card_tag = file.GetCell<std::string>("Tag", i);
 
         // красиво выводим карточку
         std::cout << "ID: " << id << "\n";
@@ -106,7 +106,4 @@ void displayAllCards() {
         std::cout << "Tag: " << card_tag << "\n";
         std::cout << "-----------------------------------\n";
     }
-
-    // Close the file
-    file.close();
 }
