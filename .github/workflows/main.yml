@@ -26,8 +26,5 @@ jobs:
       run: clang++ -std=c++17 *.cpp -o fcard
 
     # Step 4: Test the program
-    - name: Install Python dependencies
-      run: pip3 install unittest
-    
     - name: Run tests
       run: python3 -m unittest discover -s tests
