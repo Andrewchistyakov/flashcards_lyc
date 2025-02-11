@@ -1,0 +1,4 @@
+flashcards.csv
+*.o
+*.out
+.vscode
