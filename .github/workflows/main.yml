@@ -26,5 +26,11 @@ jobs:
       run: clang++ -std=c++17 *.cpp -o fcard
 
     # Step 4: Test the program
-    - name: Run tests
-      run: python3 -m unittest discover -s tests
+    - name: Install coverage
+      run: pip3 install coverage
+
+    - name: Run tests with coverage
+      run: coverage run -m unittest discover -s tests
+    
+    - name: Generate coverage report
+      run: coverage report
