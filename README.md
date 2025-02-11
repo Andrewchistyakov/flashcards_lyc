@@ -13,8 +13,8 @@ Using python "unittest" library for testing in Github Actions
 
 ## Currently available commands
 
-`./fcard privet`
+`./fcard privet` - outputs "hello world", used to check if program works
 
-`./fcard add <card_front> <card_back>`
+`./fcard add <card_front> <card_back>` - used to create new cards. cards are added to "flashcards.csv" file, which is located in the same directore as program code. 
 
-`./fcard list`
+`./fcard list` - lists all existing cards
