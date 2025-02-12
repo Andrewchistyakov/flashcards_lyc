@@ -35,8 +35,15 @@ int main(int, char* argv[])
         }
     } else if (cmdl[1] == "list" && !cmdl(2)) {
         displayAllCards();
+    } else if (cmdl[1] == "remove" && cmdl(2)) {
+        // удаляем карточку
+        if (removeFlashcard(std::stoi(cmdl[2]))) {
+            std::cout << "Flashcard removed successfully!" << std::endl;
+        } else {
+            std::cerr << "Failed to remove flashcard." << std::endl;
+        }
     } else {
-        std::cerr << "Unknown command. Available commands: privet, add" << std::endl;
+        std::cerr << "Unknown command. Available commands: privet, list, add, remove" << std::endl;
     }
 
     return 0;
