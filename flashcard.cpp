@@ -75,8 +75,8 @@ bool removeFlashcard(int wanted_id) {
     
     try {
         rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
-    } catch (...) {
-        std::cerr << "Error: Could not open " << FILENAME << "for writing." << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << "for writing." << std::endl << "Error: " << e.what() << std::endl;
         return false;
     }
 
@@ -92,8 +92,8 @@ bool removeFlashcard(int wanted_id) {
     // проверяем есть ли карточка с таким айди
     try {
         file.GetCell<int>("ID", wanted_id);
-    } catch (...) {
-        std::cerr << "Error: Flashcard with ID " << wanted_id + 1 << " not found." << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Flashcard with ID " << wanted_id + 1 << " not found." << std::endl << "Error: " << e.what() << std::endl;
         return false;
     }
 
@@ -147,8 +147,8 @@ void displayAllCards() {
     // чек на ошибки
     try {
         rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
-    } catch (...) {
-        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl << "Error: " << e.what() << std::endl;
         return;
     }
 
