@@ -41,6 +41,7 @@ int main(int, char* argv[])
             std::cout << "Flashcard removed successfully!" << std::endl;
         } else {
             std::cerr << "Failed to remove flashcard." << std::endl;
+            return 1;
         }
     } else {
         std::cerr << "Unknown command. Available commands: privet, list, add, remove" << std::endl;
