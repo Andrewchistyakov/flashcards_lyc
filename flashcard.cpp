@@ -152,13 +152,13 @@ void displayAllCards() {
     std::cout << "Flashcards:\n";
     std::cout << "-----------------------------------\n";
 
-    // читаем файлик и выводим карточки
-    for (int i = 0; i < file.GetRowCount(); i++) {
-        int id;
-        std::string card_front;
-        std::string card_back;
-        std::string card_tag;
 
+    // читаем файлик и выводим карточки
+    int id;
+    std::string card_front;
+    std::string card_back;
+    std::string card_tag;
+    for (int i = 0; i < file.GetRowCount(); i++) {
         // парсим строку по частям с либой
         id = file.GetCell<int>("ID", i);
         card_front = file.GetCell<std::string>("Front", i);
@@ -172,4 +172,44 @@ void displayAllCards() {
         std::cout << "Tag: " << card_tag << "\n";
         std::cout << "-----------------------------------\n";
     }
+}
+
+void startReviewAll() {
+    // чек на ошибки
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl << "Error: " << e.what() << std::endl;
+        return;
+    }
+
+    rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+
+    std::string card_front;
+    std::string card_back;
+    char user_response;
+    for (int i = 0; i < file.GetRowCount(); i++) {
+        // получаем из файлика карточку
+        card_front = file.GetCell<std::string>("Front", i);
+        card_back = file.GetCell<std::string>("Back", i);
+
+        // выводим фронт
+        std::cout << card_front << std::endl;
+        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl;
+
+        std::cin >> user_response;
+
+        if (user_response == 'y' || user_response == 'Y') {
+            std::cout << "Good job!" << std::endl;
+            // write stats to file here
+        } else {
+            std::cout << "Try to memorize it!" << std::endl;
+            // write stats to file here
+        }
+
+        if (i == file.GetRowCount() - 1) {
+            std::cout << "--------------- You finished them all! --------------" << std::endl; 
+        }
+    }
+    
 }

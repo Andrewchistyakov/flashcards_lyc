@@ -10,5 +10,6 @@
 bool addFlashcard(const std::string& front, const std::string& back, const std::string& tag);
 void displayAllCards();
 bool removeFlashcard(const int wanted_id);
+void startReviewAll();
 
 #endif // тоже хз че это))

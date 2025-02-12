@@ -5,7 +5,7 @@
 int main(int, char* argv[])
 {
     // cmdl - парсер из "Argh!", из него получаем аргументы
-    argh::parser cmdl({"-t", "--tag"});
+    argh::parser cmdl({"-t", "--tag", "-a", "--all"});
     cmdl.parse(argv);
 
     // тестовая команда привет, по ней можно будет проверять, запускается ли вообще программа
@@ -42,6 +42,10 @@ int main(int, char* argv[])
         } else {
             std::cerr << "Failed to remove flashcard." << std::endl;
             return 1;
+        }
+    } else if (cmdl[1] == "review") {
+        if (cmdl[{"-a", "--all"}]) {
+            startReviewAll();
         }
     } else {
         std::cerr << "Unknown command. Available commands: privet, list, add, remove" << std::endl;
