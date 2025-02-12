@@ -121,6 +121,8 @@ Tag: tag_text_1
         self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
         self.assertEqual(result.stdout.strip(), expected_output) # проверяем вывод
 
+        clear_csv("flashcards.csv")
+
 
 def clear_csv(file_path):
     """Clear the contents of a CSV file."""
