@@ -105,13 +105,18 @@ Tag: tag_text_1
         # добавляем карточку
         subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1", "-t", "tag_text_1"], capture_output=True, text=True)
 
-        # выводим карточки
-        expected_output = """Flashcards:
------------------------------------"""
-
+        # удаляем, добавляем и выводим карточки
         subprocess.run(["./fcard", "remove", "1"], capture_output=True, text=True)
         subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1", "-t", "tag_text_1"], capture_output=True, text=True)
         result = subprocess.run(["./fcard", "list"], capture_output=True, text=True)
+
+        expected_output = """Flashcards:
+-----------------------------------
+ID: 1
+Front: Test Front 1
+Back: Test Back 1
+Tag: tag_text_1
+-----------------------------------"""
 
         self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
         self.assertEqual(result.stdout.strip(), expected_output) # проверяем вывод
