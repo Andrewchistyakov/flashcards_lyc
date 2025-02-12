@@ -15,6 +15,9 @@ Using python "unittest" library for testing in Github Actions
 To compile the program run:
 `clang++ -std=c++17 *.cpp -o fcard`
 
+To run tests, run:
+`python3 -m unittest discover -s tests`
+
 ## Currently available commands
 
 `./fcard privet` - outputs "hello world", used to check if program works
