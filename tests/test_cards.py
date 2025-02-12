@@ -123,6 +123,20 @@ Tag: tag_text_1
 
         clear_csv("flashcards.csv")
 
+    def test_review_all(self):
+        # удаляем файл чтобы тестировать с нуля
+        clear_csv("flashcards.csv")
+
+        # добавляем карточки
+        subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1", "-t", "tag_text_1"], capture_output=True, text=True)
+        subprocess.run(["./fcard", "add", "Test Front 2", "Test Back 2", "-t", "tag_text_2"], capture_output=True, text=True)
+        
+        output = subprocess.run(["./fcard", "review", "-a"], input=b"\ny\nn", capture_output=True)
+        expected_output = "Test Front 1\npress \"y\" if you got it and \"n\" if not\nGood job!\nTest Front 2\npress \"y\" if you got it and \"n\" if not\nTry to memorize it!\n--------------- You finished them all! --------------"
+        self.assertEqual(output.stdout.decode().strip(), expected_output) # проверяем вывод
+
+        clear_csv("flashcards.csv")
+
 
 def clear_csv(file_path):
     """Clear the contents of a CSV file."""
@@ -131,3 +145,4 @@ def clear_csv(file_path):
 
 if __name__ == "__main__":
     unittest.main()
+
