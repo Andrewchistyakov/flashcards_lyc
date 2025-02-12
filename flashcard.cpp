@@ -10,31 +10,19 @@ std::string to_csv_string(const std::string id, const std::string front, const s
 
 // функция получает следующий ID
 int getNextID(const std::string& fname) {
-    std::ifstream file(fname);
-    if (!file.is_open()) {
-        // если файла нету берем айдишник 1
-        return 1;
-    }
-
-    std::string line, lastLine;
-    while (std::getline(file, line)) {
-        lastLine = line; // получем последнюю строку 
-    }
-    file.close();
-
-    if (lastLine.empty()) {
-        return 1; // если файлик пустой берем айди 1
-    }
-
-    // получаем айди из последней строки
-    std::istringstream iss(lastLine);
-    std::string idStr;
-    std::getline(iss, idStr, ','); // читаем до первой запятой
     try {
-        return std::stoi(idStr) + 1; // конвертируем полученную строку в инт и прибавляем 1
-    } catch (...) {
-        return 1; // если чето не так возвращаем 1
+        rapidcsv::Document doc(fname, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+        std::vector<int> ids = doc.GetColumn<int>("ID");
+    } catch (std::ifstream::failure e) {
+        return 0; // если файла нет, то возвращаем 0
+    } catch (std::exception e) {
+        std::cout << e.what() << std::endl;
+        return -1; // какая-то другая ошибка
     }
+    rapidcsv::Document doc(fname, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    std::vector<int> ids = doc.GetColumn<int>("ID");
+    return ids.empty() ? 1 : ids.back() + 1; 
+    // если айдишников нет, но заголовок есть, то возвращаем 1, иначе последний + 1
 }
 
 // функция записывает карточку в .csv файл
@@ -53,8 +41,9 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
         return false;
     }
     
-    if (id == 1) { // если файл новый, добавим заголовок
+    if (id == 0) { // если файл новый, добавим заголовок
         file << "ID,Front,Back,Tag\n";
+        id++;
     }
 
     // записываем в файл карточку
