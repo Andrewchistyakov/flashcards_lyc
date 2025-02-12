@@ -13,9 +13,11 @@ int getNextID(const std::string& fname) {
     try {
         rapidcsv::Document doc(fname, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
         std::vector<int> ids = doc.GetColumn<int>("ID");
-    } catch (std::ifstream::failure e) {
+    } catch (const std::ifstream::failure &e) {
         return 0; // если файла нет, то возвращаем 0
-    } catch (std::exception e) {
+    } catch (const std::out_of_range &e) {
+        return 0; // если файл пуст, то возвращаем 0
+    } catch (const std::exception &e) {
         std::cout << e.what() << std::endl;
         return -1; // какая-то другая ошибка
     }
