@@ -71,15 +71,13 @@ bool removeFlashcard(int wanted_id) {
     // важно отметить, что функция не будет работать 
     // если у нас айдишники в файле не вида 1, 2, 3, 4, 5...
 
-
     wanted_id--; // уменьшаем на 1, тк в файле айдишники начинаются с 1
-    // reading file
-    std::ifstream chck(FILENAME);
-    if (!chck.is_open()) {
-        std::cerr << "Error: Could not open flashcards.csv for reading." << std::endl;
+    
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (...) {
+        std::cerr << "Error: Could not open " << FILENAME << "for writing." << std::endl;
         return false;
-    } else {
-        chck.close();
     }
 
     int id;
@@ -147,15 +145,12 @@ bool removeFlashcard(int wanted_id) {
 
 void displayAllCards() {
     // чек на ошибки
-    // по факту костыль, хорошо бы переделать
-    std::ifstream chck(FILENAME);
-    if (!chck.is_open()) {
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (...) {
         std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl;
         return;
-    } else {
-        chck.close();
     }
-
 
     // LabelParams в rapidcsv нужны чтобы обозначать парсим значение или идем по номеру
     // 0 значит значение, -1 номер
