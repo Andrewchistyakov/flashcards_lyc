@@ -187,7 +187,7 @@ void startReviewAll() {
 
     std::string card_front;
     std::string card_back;
-    char user_response;
+    std::string user_response;
     for (int i = 0; i < file.GetRowCount(); i++) {
         // получаем из файлика карточку
         card_front = file.GetCell<std::string>("Front", i);
@@ -195,15 +195,18 @@ void startReviewAll() {
 
         // выводим фронт
         std::cout << card_front << std::endl;
-        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl;
-
+        std::cout << "Type anything to show answer" << std::endl << "> ";
+        std::cin >> user_response;
+        // выводим бэк
+        std::cout << "Answer: " << card_back << std::endl;
+        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl << "> ";
         std::cin >> user_response;
 
-        if (user_response == 'y' || user_response == 'Y') {
-            std::cout << "Good job!" << std::endl;
+        if (user_response == "y" || user_response == "Y") {
+            std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // write stats to file here
         } else {
-            std::cout << "Try to memorize it!" << std::endl;
+            std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
             // write stats to file here
         }
 
@@ -211,6 +214,54 @@ void startReviewAll() {
             std::cout << "--------------- You finished them all! --------------" << std::endl; 
         }
     }  
+}
+
+void startReviewTag(const std::string& tag) {
+    // чек на ошибки
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl << "Error: " << e.what() << std::endl;
+        return;
+    }
+
+    rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+
+    std::string card_front;
+    std::string card_back;
+    std::string card_tag;
+
+    std::string user_response;
+    for (int i = 0; i < file.GetRowCount(); i++) {
+        // получаем из файлика карточку
+        card_front = file.GetCell<std::string>("Front", i);
+        card_back = file.GetCell<std::string>("Back", i);
+        card_tag = file.GetCell<std::string>("Tag", i);
+
+        if (card_tag != tag) {
+            continue;
+        }
+
+        // выводим фронт
+        std::cout << card_front << std::endl;
+        std::cout << "Type anything to show answer" << std::endl << "> ";
+        std::cin >> user_response;
+        // выводим бэк
+        std::cout << "Answer: " << card_back << std::endl;
+        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl  << "> ";
+
+        std::cin >> user_response;
+
+        if (user_response == "y" || user_response == "Y") {
+            std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
+            // write stats to file here
+        } else {
+            std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
+            // write stats to file here
+        }
+    }
+    
+    std::cout << "--------------- You finished them all! --------------" << std::endl;
 }
 
 void showHelpMessage() {

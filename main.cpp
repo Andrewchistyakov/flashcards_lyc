@@ -44,8 +44,11 @@ int main(int, char* argv[])
             return 1;
         }
     } else if (cmdl[1] == "review") {
+        std::string tag;
         if (cmdl[{"-a", "--all"}]) {
             startReviewAll();
+        } else if (cmdl({"-t", "--tag"}) >> tag) {
+            startReviewTag(tag);
         }
     } else if (cmdl[1] == "help") {
         showHelpMessage();
