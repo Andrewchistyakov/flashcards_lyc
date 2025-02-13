@@ -210,6 +210,14 @@ void startReviewAll() {
         if (i == file.GetRowCount() - 1) {
             std::cout << "--------------- You finished them all! --------------" << std::endl; 
         }
-    }
-    
+    }  
+}
+
+void showHelpMessage() {
+    std::cout << "--------------------------- FCARD ---------------------------" << std::endl;
+    std::cout << "\"./fcard privet\" - prints \"Hello world!\"" << std::endl;
+    std::cout << "\"./fcard list\" - prints all flashcards" << std::endl;
+    std::cout << "\"./fcard add <card_front> <card_back>\" - adds a new card" << std::endl;
+    std::cout << "\"./fcard remove <card_id>\" - removes selected card" << std::endl;
+    std::cout << "\"./fcard review -a\" - starts review mode" << std::endl;
 }

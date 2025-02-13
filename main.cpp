@@ -47,6 +47,8 @@ int main(int, char* argv[])
         if (cmdl[{"-a", "--all"}]) {
             startReviewAll();
         }
+    } else if (cmdl[1] == "help") {
+        showHelpMessage();
     } else {
         std::cerr << "Unknown command. Available commands: privet, list, add, remove" << std::endl;
     }

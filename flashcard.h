@@ -11,5 +11,6 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
 void displayAllCards();
 bool removeFlashcard(const int wanted_id);
 void startReviewAll();
+void showHelpMessage();
 
 #endif // тоже хз че это))

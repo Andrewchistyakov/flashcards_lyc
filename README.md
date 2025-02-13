@@ -27,3 +27,5 @@ To run tests, run:
 `./fcard list` - lists all existing cards
 
 `./fcard remove <card_id>` - delete a card with specified ID
+
+`./fcard review -a` - review all cards
