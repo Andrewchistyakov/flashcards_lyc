@@ -13,7 +13,7 @@ Using "Argh!" to manage command line arguments
 Using python "unittest" library for testing in Github Actions
 
 To compile the program run:
-`clang++ -std=c++17 *.cpp -o fcard`
+`clang++ -std=c++17 *.cpp -o fcard` or just `make` in the code directory
 
 To run tests, run:
 `python3 -m unittest discover -s tests`
