@@ -12,5 +12,6 @@ void displayAllCards();
 bool removeFlashcard(const int wanted_id);
 void startReviewAll();
 void showHelpMessage();
+void startReviewTag(const std::string& tag);
 
 #endif // тоже хз че это))
