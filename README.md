@@ -16,7 +16,7 @@ To compile the program run:
 `clang++ -std=c++17 *.cpp -o fcard` or just `make` in the code directory
 
 To run tests, run:
-`python3 -m unittest discover -s tests`
+`python3 -m unittest discover -s tests` or just `make test` in the code repository
 
 ## Currently available commands
 
