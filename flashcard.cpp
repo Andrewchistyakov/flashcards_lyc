@@ -58,11 +58,9 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
     return true;
 }
 
-bool removeFlashcard(int wanted_id) {
+bool removeFlashcard(const int wanted_id) {
     // важно отметить, что функция не будет работать 
     // если у нас айдишники в файле не вида 1, 2, 3, 4, 5...
-
-    wanted_id--; // уменьшаем на 1, тк в файле айдишники начинаются с 1
     
     try {
         rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));

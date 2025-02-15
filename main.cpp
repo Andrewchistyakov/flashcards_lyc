@@ -37,7 +37,7 @@ int main(int, char* argv[])
         displayAllCards();
     } else if (cmdl[1] == "remove" && cmdl(2)) {
         // удаляем карточку
-        if (removeFlashcard(std::stoi(cmdl[2]))) {
+        if (removeFlashcard(std::stoi(cmdl[2]) - 1)) {
             std::cout << "Flashcard removed successfully!" << std::endl;
         } else {
             std::cerr << "Failed to remove flashcard." << std::endl;
