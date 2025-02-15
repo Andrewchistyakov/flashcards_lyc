@@ -45,7 +45,7 @@ Back: Test Back 2
 Tag: tag_text_2
 -----------------------------------"""
         # display all cards
-        result = subprocess.run(["./fcard", "list"], capture_output=True, text=True)
+        result = subprocess.run(["./fcard", "list", "-a"], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
         self.assertEqual(result.stdout.strip(), expected_output) # проверяем вывод
 
@@ -83,7 +83,7 @@ Tag: tag_text_2
         self.assertEqual(result.returncode, 1)  # убеждаемся что программа завершается с ошибкой
 
         subprocess.run(["./fcard", "remove", "2"], capture_output=True, text=True)
-        result = subprocess.run(["./fcard", "list"], capture_output=True, text=True)
+        result = subprocess.run(["./fcard", "list", "-a"], capture_output=True, text=True)
 
         expected_output = """Flashcards:
 -----------------------------------
@@ -108,7 +108,7 @@ Tag: tag_text_1
         # удаляем, добавляем и выводим карточки
         subprocess.run(["./fcard", "remove", "1"], capture_output=True, text=True)
         subprocess.run(["./fcard", "add", "Test Front 1", "Test Back 1", "-t", "tag_text_1"], capture_output=True, text=True)
-        result = subprocess.run(["./fcard", "list"], capture_output=True, text=True)
+        result = subprocess.run(["./fcard", "list", "--all"], capture_output=True, text=True)
 
         expected_output = """Flashcards:
 -----------------------------------

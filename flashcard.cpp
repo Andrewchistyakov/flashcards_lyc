@@ -1,8 +1,8 @@
 #include "flashcard.h"
+#include "rapidcsv.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "rapidcsv.h"
 
 std::string to_csv_string(const std::string id, const std::string front, const std::string back, const std::string tag) {
     return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"\n";
@@ -169,6 +169,44 @@ void displayAllCards() {
         std::cout << "Back: " << card_back << "\n";
         std::cout << "Tag: " << card_tag << "\n";
         std::cout << "-----------------------------------\n";
+    }
+}
+
+void displayByTag(const std::string& tag){
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl << "Error: " << e.what() << std::endl;
+        return;
+    }
+
+    rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+
+    // чут чут красоты
+    std::string line;
+    std::cout << "Flashcards: by tag \"" << tag << "\"\n";
+    std::cout << "-----------------------------------\n";
+
+
+    // читаем файлик и выводим карточки
+    int id;
+    std::string card_front;
+    std::string card_back;
+    std::string card_tag;
+    for (int i = 0; i < file.GetRowCount(); i++) {
+        // парсим строку по частям с либой
+        id = file.GetCell<int>("ID", i);
+        card_front = file.GetCell<std::string>("Front", i);
+        card_back = file.GetCell<std::string>("Back", i);
+        card_tag = file.GetCell<std::string>("Tag", i);
+        if (card_tag == tag) {
+            // красиво выводим карточку
+            std::cout << "ID: " << id << "\n";
+            std::cout << "Front: " << card_front << "\n";
+            std::cout << "Back: " << card_back << "\n";
+            std::cout << "Tag: " << card_tag << "\n";
+            std::cout << "-----------------------------------\n";
+        }
     }
 }
 
