@@ -10,6 +10,8 @@ It will have features like study mode, adding/deleting flashcards, adding tags t
 
 Using "Argh!" to manage command line arguments 
 
+Using "rapidcsv" for data storage management
+
 Using python "unittest" library for testing in Github Actions
 
 To compile the program run:
@@ -29,3 +31,5 @@ To run tests, run:
 `./fcard remove <card_id>` - delete a card with specified ID
 
 `./fcard review -a` - review all cards
+
+`./fcard review -t <tag_name>` - review all cards with the specified tag
