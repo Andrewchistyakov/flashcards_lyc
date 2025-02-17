@@ -34,10 +34,15 @@ int main(int, char* argv[])
             std::cerr << "Failed to add flashcard." << std::endl;
         }
     } else if (cmdl[1] == "list" && !cmdl(2)) {
-        displayAllCards();
+        std::string tag;
+        if (cmdl[{"-a", "--all"}]) {
+            displayAllCards();
+        } else if (cmdl({"-t", "--tag"}) >> tag) {
+            displayByTag(tag);
+        }
     } else if (cmdl[1] == "remove" && cmdl(2)) {
         // удаляем карточку
-        if (removeFlashcard(std::stoi(cmdl[2]))) {
+        if (removeFlashcard(std::stoi(cmdl[2]) - 1)) {
             std::cout << "Flashcard removed successfully!" << std::endl;
         } else {
             std::cerr << "Failed to remove flashcard." << std::endl;

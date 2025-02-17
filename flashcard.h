@@ -9,6 +9,7 @@
 // функция записывает карточку в .csv файл, реализация в flashcard.cpp
 bool addFlashcard(const std::string& front, const std::string& back, const std::string& tag);
 void displayAllCards();
+void displayByTag(const std::string& tag);
 bool removeFlashcard(const int wanted_id);
 void startReviewAll();
 void showHelpMessage();
