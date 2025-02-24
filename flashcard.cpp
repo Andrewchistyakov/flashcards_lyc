@@ -260,9 +260,7 @@ void startReviewAll() {
             std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
-            std::cout << successful_guesses << '\n';
             successful_guesses++;
-            std::cout << successful_guesses << '\n';
             file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
             std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
@@ -293,6 +291,8 @@ void startReviewTag(const std::string& tag) {
     std::string card_front;
     std::string card_back;
     std::string card_tag;
+    int successful_guesses;
+    int failed_guesses;
 
     std::string user_response;
     for (int i = 0; i < file.GetRowCount(); i++) {
@@ -317,12 +317,19 @@ void startReviewTag(const std::string& tag) {
 
         if (user_response == "y" || user_response == "Y") {
             std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
-            // write stats to file here
+            // writing stats
+            successful_guesses = file.GetCell<int>("Successful guesses", i);
+            successful_guesses++;
+            file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
             std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
-            // write stats to file here
+            // writing stats
+            failed_guesses = file.GetCell<int>("Failed guesses", i);
+            failed_guesses++;
+            file.SetCell<int>("Failed guesses", i, failed_guesses);
         }
     }
+    file.Save();
     
     std::cout << "--------------- You finished them all! --------------" << std::endl;
 }
