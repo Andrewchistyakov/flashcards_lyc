@@ -113,7 +113,7 @@ bool removeFlashcard(const int wanted_id) {
         std::cerr << "Error: Could not open temporary file for writing." << std::endl;
         return false;
     } else {
-        tmpfile << "ID,Front,Back,Tag\n";
+        tmpfile << "ID,Front,Back,Tag,Successful guesses,Failed guesses\n";
     }
 
     // проходимся по всем карточкам до нашей

@@ -56,11 +56,13 @@ int main(int, char* argv[])
             startReviewAll();
         } else if (cmdl({"-t", "--tag"}) >> tag) {
             startReviewTag(tag);
+        } else {
+            std::cout << "You have to specify \"-a\" or \"-t <tag>\"\n";
         }
     } else if (cmdl[1] == "help") {
         showHelpMessage();
     } else {
-        std::cerr << "Unknown command. Available commands: privet, list, add, remove" << std::endl;
+        std::cerr << "Unknown command. Available commands: list, add, remove, review" << std::endl;
     }
 
     return 0;
