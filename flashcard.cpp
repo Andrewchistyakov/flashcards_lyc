@@ -4,8 +4,15 @@
 #include <iostream>
 #include <sstream>
 
-std::string to_csv_string(const std::string id, const std::string front, const std::string back, const std::string tag) {
-    return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"\n";
+std::string to_csv_string(
+    const std::string id,
+    const std::string front,
+    const std::string back,
+    const std::string tag,
+    int successful_guesses,
+    int failed_guesses
+    ) {
+    return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
 }
 
 // функция получает следующий ID
@@ -44,12 +51,12 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
     }
     
     if (id == 0) { // если файл новый, добавим заголовок
-        file << "ID,Front,Back,Tag\n";
+        file << "ID,Front,Back,Tag,Successful guesses,Failed guesses\n";
         id++;
     }
 
     // записываем в файл карточку
-    file << to_csv_string(std::to_string(id), front, back, tag);
+    file << to_csv_string(std::to_string(id), front, back, tag, 0, 0);
 
     // закрываем файл
     file.close();
@@ -73,6 +80,8 @@ bool removeFlashcard(const int wanted_id) {
     std::string card_front;
     std::string card_back;
     std::string card_tag;
+    int card_successful_guesses;
+    int card_failed_guesses;
     std::string line;
     std::vector<std::string> lines;
 
@@ -102,7 +111,9 @@ bool removeFlashcard(const int wanted_id) {
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
-        line = to_csv_string(std::to_string(id), card_front, card_back, card_tag);
+        card_successful_guesses = file.GetCell<int>("Successful guesses", i);
+        card_failed_guesses = file.GetCell<int>("Failed guesses", i);
+        line = to_csv_string(std::to_string(id), card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
         tmpfile << line;
     }
 
@@ -115,7 +126,9 @@ bool removeFlashcard(const int wanted_id) {
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
-        line = to_csv_string(std::to_string(--id), card_front, card_back, card_tag);
+        card_successful_guesses = file.GetCell<int>("Successful guesses", i);
+        card_failed_guesses = file.GetCell<int>("Failed guesses", i);
+        line = to_csv_string(std::to_string(--id), card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
         tmpfile << line;
     }
     tmpfile.close();
@@ -156,18 +169,21 @@ void displayAllCards() {
     std::string card_front;
     std::string card_back;
     std::string card_tag;
+    std::string card_stats;
     for (int i = 0; i < file.GetRowCount(); i++) {
         // парсим строку по частям с либой
         id = file.GetCell<int>("ID", i);
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
+        card_stats = "Sucessful guesses: " + file.GetCell<std::string>("Successful guesses", i) + "\nFailed guesses: " + file.GetCell<std::string>("Failed guesses", i);
 
         // красиво выводим карточку
         std::cout << "ID: " << id << "\n";
         std::cout << "Front: " << card_front << "\n";
         std::cout << "Back: " << card_back << "\n";
         std::cout << "Tag: " << card_tag << "\n";
+        std::cout << card_stats << "\n";
         std::cout << "-----------------------------------\n";
     }
 }
@@ -224,6 +240,8 @@ void startReviewAll() {
     std::string card_front;
     std::string card_back;
     std::string user_response;
+    int successful_guesses;
+    int failed_guesses;
     for (int i = 0; i < file.GetRowCount(); i++) {
         // получаем из файлика карточку
         card_front = file.GetCell<std::string>("Front", i);
@@ -240,16 +258,25 @@ void startReviewAll() {
 
         if (user_response == "y" || user_response == "Y") {
             std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
-            // write stats to file here
+            // writing stats
+            successful_guesses = file.GetCell<int>("Successful guesses", i);
+            std::cout << successful_guesses << '\n';
+            successful_guesses++;
+            std::cout << successful_guesses << '\n';
+            file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
             std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
-            // write stats to file here
+            // writing stats
+            failed_guesses = file.GetCell<int>("Failed guesses", i);
+            failed_guesses++;
+            file.SetCell<int>("Failed guesses", i, failed_guesses);
         }
 
         if (i == file.GetRowCount() - 1) {
             std::cout << "--------------- You finished them all! --------------" << std::endl; 
         }
-    }  
+    }
+    file.Save("flashcards.csv");
 }
 
 void startReviewTag(const std::string& tag) {
