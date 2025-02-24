@@ -39,6 +39,8 @@ int main(int, char* argv[])
             displayAllCards();
         } else if (cmdl({"-t", "--tag"}) >> tag) {
             displayByTag(tag);
+        } else {
+            std::cout << "You have to specify \"-a\" or \"-t <tag>\"\n";
         }
     } else if (cmdl[1] == "remove" && cmdl(2)) {
         // удаляем карточку
