@@ -38,11 +38,15 @@ ID: 1
 Front: Test Front 1
 Back: Test Back 1
 Tag: tag_text_1
+Sucessful guesses: 0
+Failed guesses: 0
 -----------------------------------
 ID: 2
 Front: Test Front 2
 Back: Test Back 2
 Tag: tag_text_2
+Sucessful guesses: 0
+Failed guesses: 0
 -----------------------------------"""
         # display all cards
         result = subprocess.run(["./fcard", "list", "-a"], capture_output=True, text=True)
@@ -91,6 +95,8 @@ ID: 1
 Front: Test Front 1
 Back: Test Back 1
 Tag: tag_text_1
+Sucessful guesses: 0
+Failed guesses: 0
 -----------------------------------"""
 
         self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
@@ -116,14 +122,17 @@ ID: 1
 Front: Test Front 1
 Back: Test Back 1
 Tag: tag_text_1
+Sucessful guesses: 0
+Failed guesses: 0
 -----------------------------------"""
 
-        self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
         self.assertEqual(result.stdout.strip(), expected_output) # проверяем вывод
+        self.assertEqual(result.returncode, 0)  # убеждаемся что программа завершается без ошибки
 
         clear_csv("flashcards.csv")
 
-    # ! не знаю как тестировать функцию с вводом, оставляю без тестов
+    # ! не знаю как тестировать функцию с вводом, оставляю без тестов 
+    # 🐳🐳🐳
     """
     def test_review_all(self):
         # удаляем файл чтобы тестировать с нуля
