@@ -8,7 +8,7 @@ OUTPUT = fcard
 
 # build target
 $(OUTPUT): $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(OUTPUT)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(OUTPUT) -lncurses
 
 # test program
 test:
