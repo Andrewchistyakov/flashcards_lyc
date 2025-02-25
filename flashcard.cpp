@@ -15,6 +15,18 @@ std::string to_csv_string(
     return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
 }
 
+std::string to_csv_string(
+    const int id,
+    const std::string front,
+    const std::string back,
+    const std::string tag,
+    int successful_guesses,
+    int failed_guesses
+    ) {
+    return std::to_string(id) + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
+}
+
+
 // функция получает следующий ID
 int getNextID(const std::string& fname) {
     try {
@@ -56,7 +68,7 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
     }
 
     // записываем в файл карточку
-    file << to_csv_string(std::to_string(id), front, back, tag, 0, 0);
+    file << to_csv_string(id, front, back, tag, 0, 0);
 
     // закрываем файл
     file.close();
@@ -101,7 +113,7 @@ bool removeFlashcard(const int wanted_id) {
         std::cerr << "Error: Could not open temporary file for writing." << std::endl;
         return false;
     } else {
-        tmpfile << "ID,Front,Back,Tag\n";
+        tmpfile << "ID,Front,Back,Tag,Successful guesses,Failed guesses\n";
     }
 
     // проходимся по всем карточкам до нашей
@@ -113,7 +125,7 @@ bool removeFlashcard(const int wanted_id) {
         card_tag = file.GetCell<std::string>("Tag", i);
         card_successful_guesses = file.GetCell<int>("Successful guesses", i);
         card_failed_guesses = file.GetCell<int>("Failed guesses", i);
-        line = to_csv_string(std::to_string(id), card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
+        line = to_csv_string(id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
         tmpfile << line;
     }
 
@@ -128,7 +140,7 @@ bool removeFlashcard(const int wanted_id) {
         card_tag = file.GetCell<std::string>("Tag", i);
         card_successful_guesses = file.GetCell<int>("Successful guesses", i);
         card_failed_guesses = file.GetCell<int>("Failed guesses", i);
-        line = to_csv_string(std::to_string(--id), card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
+        line = to_csv_string(--id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
         tmpfile << line;
     }
     tmpfile.close();
