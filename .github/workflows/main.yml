@@ -19,7 +19,7 @@ jobs:
 
     # Step 2: Set up a C++ environment
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y g++ clang
+      run: sudo apt-get update && sudo apt-get install -y g++ clang libncurses-dev
 
     # Step 3: Build the program
     - name: Build the program
