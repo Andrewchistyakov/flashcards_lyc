@@ -26,7 +26,6 @@ std::string to_csv_string(
     return std::to_string(id) + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
 }
 
-
 // функция получает следующий ID
 int getNextID(const std::string& fname) {
     try {
@@ -318,23 +317,18 @@ void startReviewTag(const std::string& tag) {
         }
 
         // выводим фронт
-        std::cout << card_front << std::endl;
-        std::cout << "Type anything to show answer" << std::endl << "> ";
-        std::cin >> user_response;
+        printCenter(card_front, "Type anything to show answer");
+
         // выводим бэк
-        std::cout << "Answer: " << card_back << std::endl;
-        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl  << "> ";
-
-        std::cin >> user_response;
-
-        if (user_response == "y" || user_response == "Y") {
-            std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
+        if (check(card_back, "press \"y\" if you got it and \"n\" if not")) {
+            printColor("Good job!", COLOR_GREEN); // green = right
+            //std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
             file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
-            std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
+            printColor("Try to memorize it!", COLOR_RED); // red = wrong
             // writing stats
             failed_guesses = file.GetCell<int>("Failed guesses", i);
             failed_guesses++;
@@ -342,8 +336,8 @@ void startReviewTag(const std::string& tag) {
         }
     }
     file.Save();
-    
-    std::cout << "--------------- You finished them all! --------------" << std::endl;
+    printCenter("You finished them all!");
+    //std::cout << "--------------- You finished them all! --------------" << std::endl;
 }
 
 void showHelpMessage() {
