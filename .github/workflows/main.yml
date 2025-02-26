@@ -19,11 +19,11 @@ jobs:
 
     # Step 2: Set up a C++ environment
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y g++ clang
+      run: sudo apt-get update && sudo apt-get install -y g++ clang libncurses-dev
 
     # Step 3: Build the program
     - name: Build the program
-      run: clang++ -std=c++17 *.cpp -o fcard
+      run: clang++ -std=c++17 *.cpp -o fcard -lncurses
 
     # Step 4: Test the program
     - name: Install coverage
