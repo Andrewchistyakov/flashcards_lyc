@@ -9,7 +9,6 @@
 
 #include <memory>  // for allocator, __shared_ptr_access
 #include <string>  // for char_traits, operator+, string, basic_string
-
 #include "ftxui/component/captured_mouse.hpp"  // for ftxui
 #include "ftxui/component/component.hpp"       // for Input, Renderer, Vertical
 #include "ftxui/component/component_base.hpp"  // for ComponentBase
@@ -26,7 +25,7 @@ bool removeFlashcard(const int wanted_id);
 void startReviewAll();
 void showHelpMessage();
 void displayText(std::string);
-void displayTextColor(std::string, ftxui::Color fron_color = ftxui::Color::Default, ftxui::Color back_color = ftxui::Color::Default);
+void displayTextColor(std::string, ftxui::Color front_color = ftxui::Color::Default, ftxui::Color back_color = ftxui::Color::Default);
 std::string displayFront(std::string);
 std::string displayBack(std::string);
 void startReviewTag(const std::string& tag);

@@ -321,7 +321,6 @@ void startReviewTag(const std::string& tag) {
         // выводим бэк
         if (user_responce == "y" || user_responce == "Y") { // мб функу для чека сделать
             displayTextColor("Good job!", ftxui::Color::GreenLight); // green = right
-            //std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
@@ -336,7 +335,6 @@ void startReviewTag(const std::string& tag) {
     }
     file.Save();
     displayText("You finished them all!");
-    //std::cout << "--------------- You finished them all! --------------" << std::endl;
 }
 
 void showHelpMessage() {
