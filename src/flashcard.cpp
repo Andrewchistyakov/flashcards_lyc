@@ -316,19 +316,18 @@ void startReviewTag(const std::string& tag) {
             continue;
         }
 
-        // выводим фронт
-        printCenter(card_front, "Type anything to show answer");
+        displayFront(card_front);
 
         // выводим бэк
-        if (check(card_back, "press \"y\" if you got it and \"n\" if not")) {
-            printColor("Good job!", COLOR_GREEN); // green = right
+        if (displayBack(card_back) == "y" || displayBack(card_back) == "Y") {
+            displayTextColor("Good job!", ftxui::Color::GreenLight); // green = right
             //std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
             file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
-            printColor("Try to memorize it!", COLOR_RED); // red = wrong
+            displayTextColor("Try to memorize it!", ftxui::Color::RedLight); // red = wrong
             // writing stats
             failed_guesses = file.GetCell<int>("Failed guesses", i);
             failed_guesses++;
@@ -336,7 +335,7 @@ void startReviewTag(const std::string& tag) {
         }
     }
     file.Save();
-    printCenter("You finished them all!");
+    displayText("You finished them all!");
     //std::cout << "--------------- You finished them all! --------------" << std::endl;
 }
 
