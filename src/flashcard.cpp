@@ -317,9 +317,9 @@ void startReviewTag(const std::string& tag) {
         }
 
         displayFront(card_front);
-
+        std::string user_responce = displayBack(card_back);
         // выводим бэк
-        if (displayBack(card_back) == "y" || displayBack(card_back) == "Y") {
+        if (user_responce == "y" || user_responce == "Y") { // мб функу для чека сделать
             displayTextColor("Good job!", ftxui::Color::GreenLight); // green = right
             //std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
             // writing stats
