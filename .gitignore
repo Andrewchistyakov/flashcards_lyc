@@ -5,3 +5,4 @@
 tests/fcard
 *.pyc
 build/
+fcard
