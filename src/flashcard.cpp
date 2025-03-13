@@ -258,23 +258,16 @@ void startReviewAll() {
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
 
-        // выводим фронт
-        std::cout << card_front << std::endl;
-        std::cout << "Type anything to show answer" << std::endl << "> ";
-        std::cin >> user_response;
-        // выводим бэк
-        std::cout << "Answer: " << card_back << std::endl;
-        std::cout << "press \"y\" if you got it and \"n\" if not" << std::endl << "> ";
-        std::cin >> user_response;
-
+        displayFront(card_front);
+        std::string user_response = displayBack(card_back);
         if (user_response == "y" || user_response == "Y") {
-            std::cout << "Good job!\n-----------------------------------------------------" << std::endl;
+            displayTextColor("Good job!", ftxui::Color::GreenLight);
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
             file.SetCell<int>("Successful guesses", i, successful_guesses);
         } else {
-            std::cout << "Try to memorize it!\n-----------------------------------------------------" << std::endl;
+            displayTextColor("Try to memorize it!", ftxui::Color::RedLight);
             // writing stats
             failed_guesses = file.GetCell<int>("Failed guesses", i);
             failed_guesses++;
@@ -282,7 +275,7 @@ void startReviewAll() {
         }
 
         if (i == file.GetRowCount() - 1) {
-            std::cout << "--------------- You finished them all! --------------" << std::endl; 
+            displayText("You finished them all");
         }
     }
     file.Save("flashcards.csv");
@@ -317,9 +310,9 @@ void startReviewTag(const std::string& tag) {
         }
 
         displayFront(card_front);
-        std::string user_responce = displayBack(card_back);
+        std::string user_response = displayBack(card_back);
         // выводим бэк
-        if (user_responce == "y" || user_responce == "Y") { // мб функу для чека сделать
+        if (user_response == "y" || user_response == "Y") { // мб функу для чека сделать
             displayTextColor("Good job!", ftxui::Color::GreenLight); // green = right
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
