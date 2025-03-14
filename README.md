@@ -15,7 +15,7 @@ Using "rapidcsv" for data storage management
 Using python "unittest" library for testing in Github Actions
 
 To compile the program run:
-`clang++ -std=c++17 *.cpp -o fcard` or just `make` in the code directory
+`mkdir build || cd build || cmake .. || make -j` in the code directory
 
 To run tests, run:
 `python3 -m unittest discover -s tests` or just `make test` in the code repository

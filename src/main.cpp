@@ -61,8 +61,6 @@ int main(int, char* argv[])
         }
     } else if (cmdl[1] == "help") {
         showHelpMessage();
-    } else if (cmdl[1] == "kek" && cmdl(2)) {
-        printCenter(cmdl[2]);
     } else {
         std::cerr << "Unknown command. Available commands: list, add, remove, review" << std::endl;
     }
