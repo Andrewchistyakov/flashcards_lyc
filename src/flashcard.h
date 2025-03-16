@@ -29,6 +29,7 @@ void displayTextColor(std::string, ftxui::Color front_color = ftxui::Color::Defa
 std::string displayFront(std::string);
 std::string displayBack(std::string);
 void startReviewTag(const std::string& tag);
+void showStats(std::string tag);
 /*void printCenter(const std::string);
 void printCenter(const std::string, const std::string);
 void printColor(const std::string, const int);
