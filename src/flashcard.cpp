@@ -410,6 +410,7 @@ void showStats(std::string tag) {
         std::cout << "Successful guesses: " << successful_guesses << "\n";
         std::cout << "Failed guesses: " << failed_guesses << "\n";
         std::cout << "Learning progress: " << progressBar << "\n";
+        std::cout << "-----------------------------------\n";
     }
 }
 
