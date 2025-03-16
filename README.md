@@ -15,7 +15,7 @@ Using "rapidcsv" for data storage management
 Using python "unittest" library for testing in Github Actions
 
 To compile the program run:
-`mkdir build; cd build; cmake ..; make -j` in the code directory
+`mkdir build; cd build; cmake ..; make -j` in the code directory, the binary will appear in "build" directory
 
 To run tests, run:
 `python3 -m unittest discover -s tests` or just `make test` in the code repository
