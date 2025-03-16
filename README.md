@@ -10,7 +10,9 @@ It has features like study mode, adding/deleting flashcards, adding tags to them
 
 On review, cards are shuffled in a random order.
 
-You have a "streak" on each card. When you hit 10 successful guesses in a row, you have learned the card. You can see the streak using the stats command.
+You have a "streak" on each card. When you hit 10 successful guesses in a row, you have learned the card (it wont be shown again). You can see the streak using the stats command.
+
+You can always modify the flashcards.csv file if you want to change something, but do not ruin its structure.
 
 Using "Argh!" to manage command line arguments 
 
