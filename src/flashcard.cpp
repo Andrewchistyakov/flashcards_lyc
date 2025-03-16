@@ -10,9 +10,10 @@ std::string to_csv_string(
     const std::string back,
     const std::string tag,
     int successful_guesses,
-    int failed_guesses
+    int failed_guesses,
+    int streak
     ) {
-    return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
+    return id + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "," + std::to_string(streak) + "\n";
 }
 
 std::string to_csv_string(
@@ -21,9 +22,10 @@ std::string to_csv_string(
     const std::string back,
     const std::string tag,
     int successful_guesses,
-    int failed_guesses
+    int failed_guesses,
+    int streak
     ) {
-    return std::to_string(id) + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "\n";
+    return std::to_string(id) + ",\"" + front + "\",\"" + back + "\",\"" + tag + "\"," + std::to_string(successful_guesses) + "," + std::to_string(failed_guesses) + "," + std::to_string(streak) + "\n";
 }
 
 // функция получает следующий ID
@@ -62,12 +64,12 @@ bool addFlashcard(const std::string& front, const std::string& back, const std::
     }
     
     if (id == 0) { // если файл новый, добавим заголовок
-        file << "ID,Front,Back,Tag,Successful guesses,Failed guesses\n";
+        file << "ID,Front,Back,Tag,Successful guesses,Failed guesses,Streak\n";
         id++;
     }
 
     // записываем в файл карточку
-    file << to_csv_string(id, front, back, tag, 0, 0);
+    file << to_csv_string(id, front, back, tag, 0, 0, 0);
 
     // закрываем файл
     file.close();
@@ -93,6 +95,7 @@ bool removeFlashcard(const int wanted_id) {
     std::string card_tag;
     int card_successful_guesses;
     int card_failed_guesses;
+    int streak;
     std::string line;
     std::vector<std::string> lines;
 
@@ -112,7 +115,7 @@ bool removeFlashcard(const int wanted_id) {
         std::cerr << "Error: Could not open temporary file for writing." << std::endl;
         return false;
     } else {
-        tmpfile << "ID,Front,Back,Tag,Successful guesses,Failed guesses\n";
+        tmpfile << "ID,Front,Back,Tag,Successful guesses,Failed guesses,Streak\n";
     }
 
     // проходимся по всем карточкам до нашей
@@ -124,7 +127,8 @@ bool removeFlashcard(const int wanted_id) {
         card_tag = file.GetCell<std::string>("Tag", i);
         card_successful_guesses = file.GetCell<int>("Successful guesses", i);
         card_failed_guesses = file.GetCell<int>("Failed guesses", i);
-        line = to_csv_string(id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
+        streak = file.GetCell<int>("Streak", i);
+        line = to_csv_string(id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses, streak);
         tmpfile << line;
     }
 
@@ -139,7 +143,8 @@ bool removeFlashcard(const int wanted_id) {
         card_tag = file.GetCell<std::string>("Tag", i);
         card_successful_guesses = file.GetCell<int>("Successful guesses", i);
         card_failed_guesses = file.GetCell<int>("Failed guesses", i);
-        line = to_csv_string(--id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses);
+        streak = file.GetCell<int>("Streak", i);
+        line = to_csv_string(--id, card_front, card_back, card_tag, card_successful_guesses, card_failed_guesses, streak);
         tmpfile << line;
     }
     tmpfile.close();
@@ -181,6 +186,7 @@ void displayAllCards() {
     std::string card_back;
     std::string card_tag;
     std::string card_stats;
+    int streak;
     for (int i = 0; i < file.GetRowCount(); i++) {
         // парсим строку по частям с либой
         id = file.GetCell<int>("ID", i);
@@ -188,6 +194,7 @@ void displayAllCards() {
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
         card_stats = "Sucessful guesses: " + file.GetCell<std::string>("Successful guesses", i) + "\nFailed guesses: " + file.GetCell<std::string>("Failed guesses", i);
+        streak = file.GetCell<int>("Streak", i);
 
         // красиво выводим карточку
         std::cout << "ID: " << id << "\n";
@@ -195,6 +202,7 @@ void displayAllCards() {
         std::cout << "Back: " << card_back << "\n";
         std::cout << "Tag: " << card_tag << "\n";
         std::cout << card_stats << "\n";
+        std::cout << "Current streak: " << streak << '\n';
         std::cout << "-----------------------------------\n";
     }
 }
@@ -220,18 +228,25 @@ void displayByTag(const std::string& tag){
     std::string card_front;
     std::string card_back;
     std::string card_tag;
+    std::string card_stats;
+    int streak;
+
     for (int i = 0; i < file.GetRowCount(); i++) {
         // парсим строку по частям с либой
         id = file.GetCell<int>("ID", i);
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
+        card_stats = "Sucessful guesses: " + file.GetCell<std::string>("Successful guesses", i) + "\nFailed guesses: " + file.GetCell<std::string>("Failed guesses", i);
+        streak = file.GetCell<int>("Streak", i);
         if (card_tag == tag) {
             // красиво выводим карточку
             std::cout << "ID: " << id << "\n";
             std::cout << "Front: " << card_front << "\n";
             std::cout << "Back: " << card_back << "\n";
             std::cout << "Tag: " << card_tag << "\n";
+            std::cout << card_stats << "\n";
+            std::cout << "Current streak:" << streak << '\n';
             std::cout << "-----------------------------------\n";
         }
     }
@@ -253,10 +268,14 @@ void startReviewAll() {
     std::string user_response;
     int successful_guesses;
     int failed_guesses;
+    int streak;
+    
+    
     for (int i = 0; i < file.GetRowCount(); i++) {
         // получаем из файлика карточку
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
+        streak = file.GetCell<int>("Streak", i);
 
         displayFront(card_front);
         std::string user_response = displayBack(card_back);
@@ -265,13 +284,17 @@ void startReviewAll() {
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
+            streak++;
             file.SetCell<int>("Successful guesses", i, successful_guesses);
+            file.SetCell<int>("Streak", i, streak);
         } else {
             displayTextColor("Try to memorize it!", ftxui::Color::RedLight);
             // writing stats
             failed_guesses = file.GetCell<int>("Failed guesses", i);
             failed_guesses++;
+            streak = 0;
             file.SetCell<int>("Failed guesses", i, failed_guesses);
+            file.SetCell<int>("Streak", i, streak);
         }
 
         if (i == file.GetRowCount() - 1) {
@@ -297,6 +320,7 @@ void startReviewTag(const std::string& tag) {
     std::string card_tag;
     int successful_guesses;
     int failed_guesses;
+    int streak;
 
     std::string user_response;
     for (int i = 0; i < file.GetRowCount(); i++) {
@@ -304,6 +328,7 @@ void startReviewTag(const std::string& tag) {
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
         card_tag = file.GetCell<std::string>("Tag", i);
+        streak = file.GetCell<int>("Streak", i);
 
         if (card_tag != tag) {
             continue;
@@ -317,13 +342,17 @@ void startReviewTag(const std::string& tag) {
             // writing stats
             successful_guesses = file.GetCell<int>("Successful guesses", i);
             successful_guesses++;
+            streak++;
             file.SetCell<int>("Successful guesses", i, successful_guesses);
+            file.SetCell<int>("Streak", i, streak);
         } else {
             displayTextColor("Try to memorize it!", ftxui::Color::RedLight); // red = wrong
             // writing stats
             failed_guesses = file.GetCell<int>("Failed guesses", i);
             failed_guesses++;
+            streak = 0;
             file.SetCell<int>("Failed guesses", i, failed_guesses);
+            file.SetCell<int>("Streak", i, streak);
         }
     }
     file.Save();
