@@ -6,7 +6,7 @@ This is a HSE lyceum study project of andrew, ilya and sasha.
 
 It is an analog of famous Quizlet app, but in CLI.
 
-It has features like study mode, adding/deleting flashcards, adding tags to them, viewing stats, importing/exporting sets of cards etc.
+Fcard has features like study mode, adding/deleting flashcards, adding tags to them, viewing stats, importing/exporting sets of cards etc.
 
 On review, cards are shuffled in a random order.
 
