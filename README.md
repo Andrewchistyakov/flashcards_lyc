@@ -6,7 +6,7 @@ This is a HSE lyceum study project of andrew, ilya and sasha.
 
 It is an analog of famous Quizlet app, but in CLI.
 
-It will have features like study mode, adding/deleting flashcards, adding tags to them, viewing stats, importing/exporting sets of cards etc.
+It has features like study mode, adding/deleting flashcards, adding tags to them, viewing stats, importing/exporting sets of cards etc.
 
 Using "Argh!" to manage command line arguments 
 
@@ -18,7 +18,7 @@ To compile the program run:
 `mkdir build; cd build; cmake ..; make -j` in the code directory, the binary will appear in "build" directory
 
 To run tests, run:
-`python3 -m unittest discover -s tests` or just `make test` in the code repository
+`python3 -m unittest discover -s tests` in the code repository
 
 ## Currently available commands
 
@@ -33,3 +33,5 @@ To run tests, run:
 `./fcard review -a` - review all cards
 
 `./fcard review -t <tag_name>` - review all cards with the specified tag
+
+`./fcard stats -t <tag_name>` - see stats for all cards of specified tag.
