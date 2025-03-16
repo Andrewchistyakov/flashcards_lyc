@@ -359,6 +359,60 @@ void startReviewTag(const std::string& tag) {
     displayText("You finished them all!");
 }
 
+void showStats(std::string tag) {
+    // чек на ошибки
+    try {
+        rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Could not open " << FILENAME << " for reading." << std::endl << "Error: " << e.what() << std::endl;
+        return;
+    }
+
+    rapidcsv::Document file(FILENAME, rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(SEP));
+
+    std::string card_front;
+    std::string card_back;
+    std::string card_tag;
+    int successful_guesses;
+    int failed_guesses;
+    int streak;
+
+    for (int i = 0; i < file.GetRowCount(); i++) {
+        // получаем из файла карточку
+        card_front = file.GetCell<std::string>("Front", i);
+        card_back = file.GetCell<std::string>("Back", i);
+        card_tag = file.GetCell<std::string>("Tag", i);
+        successful_guesses = file.GetCell<int>("Successful guesses", i);
+        failed_guesses = file.GetCell<int>("Failed guesses", i);
+        streak = file.GetCell<int>("Streak", i);
+
+        if (card_tag != tag) {
+            continue;
+        }
+
+        std::string progressBar = "[";
+
+        if (streak > 10) {
+            streak = 10;
+        }   
+        
+        for (int j = 0; j < streak; j++) {
+            progressBar += "#";
+        }
+        for (int j = 0; j < 10 - streak; j++) {
+            progressBar += "-";
+        }
+        progressBar += "] " + std::to_string(streak * 10) + "%";
+
+
+        std::cout << "Front: " << card_front << "\n";
+        std::cout << "Back: " << card_back << "\n";
+        std::cout << "Successful guesses: " << successful_guesses << "\n";
+        std::cout << "Failed guesses: " << failed_guesses << "\n";
+        std::cout << "Learning progress: " << progressBar << "\n";
+    }
+}
+
 void showHelpMessage() {
     std::cout << "--------------------------- FCARD ---------------------------" << std::endl;
     std::cout << "\"./fcard privet\" - prints \"Hello world!\"" << std::endl;

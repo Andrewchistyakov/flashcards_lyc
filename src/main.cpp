@@ -61,6 +61,10 @@ int main(int, char* argv[])
         }
     } else if (cmdl[1] == "help") {
         showHelpMessage();
+    } else if (cmdl[1] == "stats") {
+        std::string tag;
+        cmdl({"-t", "--tag"}) >> tag;
+        showStats(tag);
     } else {
         std::cerr << "Unknown command. Available commands: list, add, remove, review" << std::endl;
     }
