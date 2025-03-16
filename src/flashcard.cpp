@@ -275,8 +275,12 @@ void startReviewAll() {
     // shuffling cards
     std::vector<int> needed_ids;
     for (int i = 0; i < file.GetRowCount(); ++i) {
-        needed_ids.push_back(i);
+        int streak = file.GetCell<int>("Streak", i);
+        if (streak < 10) {
+            needed_ids.push_back(i);
+        }
     }
+    
     std::random_device rd;
     std::mt19937 rng(rd());
     std::shuffle(needed_ids.begin(),needed_ids.end(), rng);
@@ -335,7 +339,8 @@ void startReviewTag(const std::string& tag) {
     std::vector<int> needed_ids;
     for (int i = 0; i < file.GetRowCount(); ++i) {
         std::string current_tag = file.GetCell<std::string>("Tag", i);
-        if (current_tag == tag) {
+        int streak = file.GetCell<int>("Streak", i);
+        if (current_tag == tag && streak < 10) {
             needed_ids.push_back(i);
         }
     }
