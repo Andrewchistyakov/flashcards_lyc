@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+#include <random>
 
 std::string to_csv_string(
     const std::string id,
@@ -269,9 +271,19 @@ void startReviewAll() {
     int successful_guesses;
     int failed_guesses;
     int streak;
+
+    // shuffling cards
+    std::vector<int> needed_ids;
+    for (int i = 0; i < file.GetRowCount(); ++i) {
+        needed_ids.push_back(i);
+    }
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::shuffle(needed_ids.begin(),needed_ids.end(), rng);
+
     
     
-    for (int i = 0; i < file.GetRowCount(); i++) {
+    for (int i : needed_ids) {
         // получаем из файлика карточку
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
@@ -296,11 +308,8 @@ void startReviewAll() {
             file.SetCell<int>("Failed guesses", i, failed_guesses);
             file.SetCell<int>("Streak", i, streak);
         }
-
-        if (i == file.GetRowCount() - 1) {
-            displayText("You finished them all");
-        }
     }
+    displayText("You finished them all");
     file.Save("flashcards.csv");
 }
 
@@ -322,8 +331,20 @@ void startReviewTag(const std::string& tag) {
     int failed_guesses;
     int streak;
 
+    // shuffling cards
+    std::vector<int> needed_ids;
+    for (int i = 0; i < file.GetRowCount(); ++i) {
+        std::string current_tag = file.GetCell<std::string>("Tag", i);
+        if (current_tag == tag) {
+            needed_ids.push_back(i);
+        }
+    }
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::shuffle(needed_ids.begin(),needed_ids.end(), rng);
+
     std::string user_response;
-    for (int i = 0; i < file.GetRowCount(); i++) {
+    for (int i : needed_ids) {
         // получаем из файлика карточку
         card_front = file.GetCell<std::string>("Front", i);
         card_back = file.GetCell<std::string>("Back", i);
